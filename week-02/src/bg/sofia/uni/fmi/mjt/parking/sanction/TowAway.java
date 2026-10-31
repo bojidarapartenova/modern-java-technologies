@@ -5,8 +5,11 @@ import bg.sofia.uni.fmi.mjt.parking.zone.ParkingZone;
 
 public class TowAway extends AbstractSanction{
 
+    public static final int SANCTION_TAX = 30;
+
     public TowAway(Vehicle vehicle, ParkingZone zone)
     {
-        super(vehicle, zone, 30);
+        super(vehicle, zone, SANCTION_TAX);
     }
 }
+

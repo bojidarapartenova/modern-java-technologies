@@ -26,7 +26,7 @@ public class BlueZone extends AbstractZone{
             return false;
         }
 
-        double distance = Math.sqrt(Math.pow((location.getX()-center.getX()), 2) + Math.pow((location.getY()-center.getY()), 2));
+        double distance = Math.sqrt(Math.pow((location.x()-center.x()), 2) + Math.pow((location.y()-center.y()), 2));
 
         return distance<=radius;
     }
