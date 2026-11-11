@@ -1,61 +1,48 @@
-import java.util.Arrays;
+import bg.sofia.uni.fmi.mjt.maythecoursebewithyou.MayTheCourseBeWithYouAPI;
+import bg.sofia.uni.fmi.mjt.maythecoursebewithyou.StatisticsDashboard;
+import bg.sofia.uni.fmi.mjt.maythecoursebewithyou.entity.Course;
+import bg.sofia.uni.fmi.mjt.maythecoursebewithyou.entity.Department;
+import bg.sofia.uni.fmi.mjt.maythecoursebewithyou.entity.Student;
+import bg.sofia.uni.fmi.mjt.maythecoursebewithyou.impl.MayTheCourseBeWithYou;
 
 public class Main {
+    @SuppressWarnings("checkstyle:MethodLength")
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("Loving #Java and #java at #FMI!")
-        ));
+        MayTheCourseBeWithYouAPI app = new MayTheCourseBeWithYou();
 
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("No tags here, just vibes")
-        ));
+        Course mjt = new Course(
+            "MJT",
+            "Modern Java Technologies",
+            Department.COMPUTER_SCIENCE,
+            2
+        );
 
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("#MJT #mjt #MjT are all one tag")
-        ));
+        app.enlistCourse(mjt);
 
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("Adjacent #one#two tags")
-        ));
+        Student ivan = new Student("1", "Иван");
+        Student mariya = new Student("2", "Мария");
+        Student petar = new Student("3", "Петър");
 
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("A lone # is not a tag, but #this1 is")
-        ));
+        System.out.println(app.enroll(ivan, "MJT"));   // true
+        System.out.println(app.enroll(mariya, "MJT")); // true
+        System.out.println(app.enroll(petar, "MJT"));  // false - няма места
 
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("Trailing hash #")
-        ));
+        StatisticsDashboard dashboard = app.getStatisticsDashboard();
 
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("   ")
-        ));
+        System.out.println("Записани студенти:");
+        System.out.println(dashboard.getEnrolledStudents("MJT"));
 
-        System.out.println(Arrays.toString(
-                HashtagExtractor.extractHashtags("Happy new year #2024!")
-        ));
+        System.out.println("Списък на чакащите:");
+        System.out.println(dashboard.getWaitlist("MJT"));
 
-        System.out.println(DnsResolver.resolve(
-                new String[]{"www.fmi.bg", "fmi.uni-sofia.bg", "uni-sofia.bg"},
-                new String[]{"fmi.uni-sofia.bg", "uni-sofia.bg", "learn.fmi.bg"},
-                "www.fmi.bg"
-        ));
+        app.drop(mariya, "MJT");
 
-        System.out.println(DnsResolver.resolve(
-                new String[]{"moodle.bg", "login.moodle.bg"},
-                new String[]{"login.moodle.bg", "moodle.bg"},
-                "moodle.bg"
-        ));
+        System.out.println("След отписването на Мария:");
 
-        System.out.println(DnsResolver.resolve(
-                new String[]{"localhost"},
-                new String[]{"localhost"},
-                "localhost"
-        ));
+        System.out.println("Записани студенти:");
+        System.out.println(dashboard.getEnrolledStudents("MJT"));
 
-        System.out.println(DnsResolver.resolve(
-                new String[]{"www.fmi.bg", "fmi.uni-sofia.bg"},
-                new String[]{"fmi.uni-sofia.bg", "uni-sofia.bg"},
-                "example.com"
-        ));
+        System.out.println("Списък на чакащите:");
+        System.out.println(dashboard.getWaitlist("MJT"));
     }
 }
